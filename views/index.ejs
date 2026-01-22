@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Zarządzanie Grami</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 30px;
+      }
+      .form-container {
+        background: #f0f0f0;
+        padding: 20px;
+        border-radius: 5px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #999;
+        padding: 10px;
+        text-align: left;
+      }
+      .btn-delete {
+        color: white;
+        background: red;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Dodaj grę</h2>
+      <form method="POST">
+        <label>Tytuł:</label>
+        <input type="text" name="title" />
+
+        <label>Ocena:</label>
+        <input type="number" name="rating" step="0.1" />
+
+        <button type="submit">Dodaj</button>
+      </form>
+    </div>
+
+    <h2>Lista gier</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Ranking</th>
+          <th>Akcja</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Przykładowa Gra</td>
+          <td>9.0</td>
+          <td>
+            <form method="POST">
+              <button type="submit" class="btn-delete">Usuń</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
