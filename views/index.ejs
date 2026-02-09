@@ -1,72 +1,144 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Zarządzanie Grami</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka Gier</title>
     <style>
-      body {
-        font-family: sans-serif;
-        margin: 30px;
-      }
-      .form-container {
-        background: #f0f0f0;
-        padding: 20px;
-        border-radius: 5px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-      }
-      th,
-      td {
-        border: 1px solid #999;
-        padding: 10px;
-        text-align: left;
-      }
-      .btn-delete {
-        color: white;
-        background: red;
-        border: none;
-        padding: 5px;
-        cursor: pointer;
-      }
+        :root {
+            --primary: #6366f1;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-card {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .compact-form {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #64748b;
+        }
+
+        input {
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.55rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            height: fit-content;
+        }
+
+        button:hover { background-color: #4f46e5; }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .game-item {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-info h3 { margin: 0; font-size: 1rem; }
+        .game-info p { margin: 0.1rem 0; font-size: 0.85rem; color: #64748b; }
+        .rating { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
     </style>
-  </head>
-  <body>
-    <div class="form-container">
-      <h2>Dodaj grę</h2>
-      <form method="POST">
-        <label>Tytuł:</label>
-        <input type="text" name="title" />
+</head>
+<body>
 
-        <label>Ocena:</label>
-        <input type="number" name="rating" step="0.1" />
-
-        <button type="submit">Dodaj</button>
-      </form>
+<div class="container">
+    <div class="header-card">
+        <form action="/" method="POST" class="compact-form">
+            <div class="input-group">
+                <label>Tytuł</label>
+                <input type="text" name="title" placeholder="Wiedźmin 3" required>
+            </div>
+            <div class="input-group" style="flex: 0.5; min-width: 80px;">
+                <label>Ocena</label>
+                <input type="number" name="rating" step="0.1" min="0" max="10" placeholder="9.5" required>
+            </div>
+            <div class="input-group">
+                <label>Gatunek</label>
+                <input type="text" name="genre" placeholder="RPG" required>
+            </div>
+            <div class="input-group">
+                <label>Autor</label>
+                <input type="text" name="developer" placeholder="CD Projekt" required>
+            </div>
+            <button type="submit">Dodaj</button>
+        </form>
     </div>
 
-    <h2>Lista gier</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Nazwa</th>
-          <th>Ranking</th>
-          <th>Akcja</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Przykładowa Gra</td>
-          <td>9.0</td>
-          <td>
-            <form method="POST">
-              <button type="submit" class="btn-delete">Usuń</button>
-            </form>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </body>
+    <div class="game-grid">
+        <% if (locals.games && games.length > 0) { %>
+            <% games.forEach(game => { %>
+                <div class="game-item">
+                    <div class="game-info">
+                        <h3><%= game.title %></h3>
+                        <p>📁 <%= (game.genres && game.genres[0]) ? game.genres.join(', ') : 'Brak' %></p>
+                        <p>🏢 <%= (game.developers && game.developers[0]) ? game.developers.join(', ') : 'Brak' %></p>
+                    </div>
+                    <div class="rating">
+                        <%= game.rating %>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>Baza jest pusta.</p>
+        <% } %>
+    </div>
+</div>
+
+</body>
 </html>
